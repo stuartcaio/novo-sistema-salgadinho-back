@@ -1,0 +1,18 @@
+version: "2"
+services:
+  absolutelywhatever:
+    image: sistema-salgadinho
+    ports:
+      - "80:80"
+    environment:
+      DB_CONNECTION= mysql
+      DB_HOST= 192.168.2.110
+      DB_PORT= 3306
+      DB_DATABASE= sistema-salgadinho
+      DB_USERNAME= root
+      DB_PASSWORD= 91325830Kj-
+    networks:
+      - impact
+networks:
+  impact:
+    external: true
