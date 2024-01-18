@@ -25,7 +25,7 @@ class OrderController extends Controller
 
             $this->save(["employee_id" => $request->employee_id, "company_id" => $request->company_id]);
 
-            return ["message" => "Pedido realizado com sucesso!"];
+            return response()->json(["message" => "Pedido realizado com sucesso!"]);
         } catch (Exception $e){
             return $e;
         }

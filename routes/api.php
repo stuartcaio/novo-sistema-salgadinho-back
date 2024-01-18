@@ -7,6 +7,8 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +25,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource("users", UserController::class);
-Route::resource("employees", EmployeeController::class);
-Route::resource("companies", CompanyController::class);
-Route::resource("orders", OrderController::class);
-Route::resource("reviews", ReviewController::class);
+Route::group(["middleware" => "validate.user"], function(){
+    Route::resource("users", UserController::class);
+    Route::resource("employees", EmployeeController::class);
+    Route::resource("companies", CompanyController::class);
+    Route::resource("orders", OrderController::class);
+    Route::resource("reviews", ReviewController::class);
+    Route::resource("permissions", PermissionController::class);
+    Route::resource("roles", RoleController::class);
+});
+
+Route::post("register", [UserController::class, "register"]);
+Route::post("/login", [UserController::class, "login"]);
+Route::post("/logout", [UserController::class, "logout"]);
