@@ -39,7 +39,7 @@ class ValidateUser
                 return $next($request);
             }
 
-            return response()->json(["message" => "O administrador inserido não está cadastro no sistema.", "status" => 403]);
+            return response()->json(["message" => "O usuário não tem permissão para isso.", "status" => 403]);
         }
 
         return response()->json(["message" => "O usuário inserido não está cadastrado no sistema.", "status" => 401]);
