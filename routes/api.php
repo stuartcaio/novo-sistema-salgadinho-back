@@ -35,6 +35,6 @@ Route::group(["middleware" => "validate.user"], function(){
     Route::resource("roles", RoleController::class);
 });
 
-Route::post("register", [UserController::class, "register"]);
+Route::post("/register", [UserController::class, "register"]);
 Route::post("/login", [UserController::class, "login"]);
 Route::post("/logout", [UserController::class, "logout"]);
