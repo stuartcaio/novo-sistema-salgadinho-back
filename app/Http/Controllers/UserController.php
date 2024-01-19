@@ -95,7 +95,7 @@ class UserController extends Controller
         $adminUsers = $this->adminUsers;
 
         if(!Auth::attempt(["email" => $request->email, "password" => $request->password])){
-            return ["message" => "E-mail ou senha incorretos."];
+            return response()->json(["message" => "E-mail ou senha incorretos."]);
         }
 
         $user = Auth::user();
@@ -104,7 +104,7 @@ class UserController extends Controller
             if($request["email"] === $adminUser["email"] && $request["password"] === $adminUser["password"]){
                 $token = JWTAuth::fromUser($user, ["role" => "admin"]);
 
-                return ["message" => "Administrador logado com sucesso!", "token" => $token];
+                return response()->json(["message" => "Administrador logado com sucesso!", "token" => $token]);
             }
         }
 
