@@ -1,18 +1,27 @@
-version: "2"
+version: "3.8"
 services:
-  absolutelywhatever:
-    image: sistema-salgadinho
+  db:
+    image: mysql:5.7.22
+    restart: unless-stopped
     ports:
-      - "80:80"
+      - "3307:3307"
+    expose:
+      - 3307
     environment:
-      DB_CONNECTION= mysql
-      DB_HOST= 192.168.2.110
-      DB_PORT= 3306
-      DB_DATABASE= sistema-salgadinho
-      DB_USERNAME= root
-      DB_PASSWORD= 91325830Kj-
-    networks:
-      - impact
-networks:
-  impact:
-    external: true
+      MYSQL_ROOT_PASSWORD: 91325830Kj-
+      MYSQL_DATABASE: sistema-salgadinho
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - ./docker/data:/var/lib/mysql/
+  php:
+    build:
+        context: './'
+        dockerfile: 'Dockerfile'
+    working_dir: '/var/www/html'
+    # command: bash -c "composer install && php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"
+    volumes:
+        - './:/var/www/html'
+    ports:
+        - "8020:80"
+        - "8443:443"
+    restart: unless-stopped
