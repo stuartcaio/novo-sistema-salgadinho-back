@@ -27,13 +27,13 @@ class CompanyController extends Controller
 
                 $this->save(["name" => $request->name, "address" => $request->address]);
 
-                return ["message" => "Empresa cadastrado com sucesso!"];
+                return response()->json(["message" => "Empresa cadastrado com sucesso!"]);
             } catch(Exception $e){
 
             }
         }
 
-        return ["message" => "Este empresa já foi cadastrado."];
+        return response()->json(["message" => "Este empresa já foi cadastrado."]);
     }
 
     public function update(Request $request, $id){
@@ -42,10 +42,10 @@ class CompanyController extends Controller
         if($companyWithInsertedIDExists){
             $this->updateByID(["name" => $request->name, "address" => $request->address], $id);
 
-            return ["message" => "Empresa atualizado com sucesso!"];
+            return response()->json(["message" => "Empresa atualizado com sucesso!"]);
         }
 
-        return ["message" => "Não existe um empresa com este ID."];
+        return response()->json(["message" => "Não existe um empresa com este ID."]);
     }
 
     public function destroy($id){
@@ -54,10 +54,10 @@ class CompanyController extends Controller
         if($companyWithInsertedIDExists){
             $this->delete($id);
 
-            return ["message" => "Empresa deletado com sucesso!"];
+            return response()->json(["message" => "Empresa deletado com sucesso!"]);
         }
 
-        return ["message" => "Não existe um empresa com este ID."];
+        return response()->json(["message" => "Não existe um empresa com este ID."]);
     }
 
     public function show($id){

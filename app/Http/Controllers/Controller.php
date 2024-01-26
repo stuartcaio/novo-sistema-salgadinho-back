@@ -11,5 +11,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    
+    public $adminUsers = [
+        ["email" => "caiostuart01@gmail.com", "password" => "stuartcaio01"],
+        ["email" => "caiostuart02@gmail.com", "password" => "stuartcaio02"]
+    ];
 }

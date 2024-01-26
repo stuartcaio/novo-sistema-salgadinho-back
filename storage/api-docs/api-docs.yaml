@@ -1,0 +1,763 @@
+openapi: 3.0.0
+info:
+  title: Sistema de Salgadinho
+  description: Documentação do sistema de salgadinho
+  version: 1.0.0
+
+paths:
+  /login:
+    post:
+      tags:
+        - Usuários
+      summary: Loga o usuário no sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: John Doe
+              email: john.doe@example.com
+              password: secret
+      responses:
+        '201':
+          description: Usuário criado com sucesso!
+          content:
+            application/json:
+              example:
+                id: 1
+                name: John Doe
+                email: john.doe@example.com
+  /register:
+    post:
+      tags:
+        - Usuários
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: John Doe
+              email: john.doe@example.com
+              password: secret
+      responses:
+        '201':
+          description: Usuário criado com sucesso!
+          content:
+            application/json:
+              example:
+                id: 1
+                name: John Doe
+                email: john.doe@example.com
+  /users:
+    get:
+      tags:
+        - Usuários
+      summary: Retorna todos os usuários
+      description: ""
+      responses:
+        '200':  
+          description: "Usuários retornados com sucesso!"
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: John Doe
+                  email: john.doe@example.com
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the user
+        schema:
+          type: integer
+    get:
+      tags:
+        - Usuários
+      summary: Retorna usuário pelo ID
+      responses:
+        '200':
+          description: Usuário retornado com sucesso!
+          content:
+            application/json:
+              example:
+                id: 1
+                name: John Doe
+                email: john.doe@example.com
+
+    put:
+      tags:
+        - Usuários
+      summary: Edita um usuário pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Updated Name
+              email: updated.email@example.com
+              password: updatedpassword
+      responses:
+        '200':
+          description: Usuário editado com sucesso!
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Updated Name
+                email: updated.email@example.com
+
+    delete:
+      tags:
+        - Usuários
+      summary: Usuário deletado pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the user
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuário deletado com sucesso!
+
+  /employees:
+    get:
+      tags:
+        - Funcionários
+      summary: Get all employees
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Jane Doe
+                  dateOfBirth: 1990-01-15
+                  dateOfSigning: 2022-01-01
+
+    post:
+      tags:
+        - Funcionários
+      summary: Create a new employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Jane Doe
+              dateOfBirth: 1990-01-15
+              dateOfSigning: 2022-01-01
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Jane Doe
+                dateOfBirth: 1990-01-15
+                dateOfSigning: 2022-01-01
+
+  /employees/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the employee
+        schema:
+          type: integer
+    get:
+      tags:
+        - Funcionários
+      summary: Get employee by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Jane Doe
+                dateOfBirth: 1990-01-15
+                dateOfSigning: 2022-01-01
+
+    put:
+      tags:
+        - Funcionários
+      summary: Update employee by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the employee
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Updated Employee
+              dateOfBirth: 1985-05-20
+              dateOfSigning: 2022-02-15
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Updated Employee
+                dateOfBirth: 1985-05-20
+                dateOfSigning: 2022-02-15
+
+    delete:
+      tags:
+        - Funcionários
+      summary: Delete employee by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the employee
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Employee deleted successfully
+
+  /companies:
+    get:
+      tags:
+        - Empresas
+      summary: Get all companies
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Real Salgados,
+                  address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+
+    post:
+      tags:
+        - Empresas
+      summary: Create a new company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Real Salgados,
+              address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Real Salgados,
+                address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+
+  /companies/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the company
+        schema:
+          type: integer
+    get:
+      tags:
+        - Empresas
+      summary: Get company by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Real Salgados,
+                address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+
+    put:
+      tags:
+        - Empresas
+      summary: Update company by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the company
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Real Salgados,
+              address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+      responses:
+        '200':
+          description: Company updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Real Salgados,
+                address: Rua Manoel Francisco Coelho 376 S Vicente, Itajai, State of Santa Catarina 88309-280 Brazil
+    delete:
+      tags:
+        - Empresas
+      summary: Delete company by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the company
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Company deleted successfully
+          
+  /orders:
+    get:
+      tags:
+        - Pedidos
+      summary: Get all orders
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - employee_id: 1,
+                  company_id: 1
+
+    post:
+      tags:
+        - Pedidos
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              employee_id: 1,
+              company_id: 1
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                employee_id: 1,
+                company_id: 1
+
+  /order/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the order
+        schema:
+          type: integer
+    get:
+      tags:
+        - Pedidos
+      summary: Get order by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                employee_id: 1,
+                company_id: 1
+
+    put:
+      tags:
+        - Pedidos
+      summary: Update order by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the order
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              employee_id: 1,
+              company_id: 1
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                employee_id: 1,
+                company_id: 1
+
+    delete:
+      tags:
+        - Pedidos
+      summary: Delete order by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the order
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Order deleted successfully        
+    
+  /reviews:
+    get:
+      tags:
+        - Avaliações
+      summary: Get all reviews
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - reviewValue: 1.0,
+                  description: O pedido foi ótimo!,
+                  company_id: 1,
+                  employee_id: 1
+
+    post:
+      tags:
+        - Avaliações
+      summary: Create a new review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              reviewValue: 1.0,
+              description: O pedido foi ótimo!,
+              company_id: 1,
+              employee_id: 1
+      responses:
+        '201':
+          description: Review created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                reviewValue: 1.0,
+                description: O pedido foi ótimo!,
+                company_id: 1,
+                employee_id: 1
+
+  /reviews/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the review
+        schema:
+          type: integer
+    get:
+      tags:
+        - Avaliações
+      summary: Get review by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                reviewValue: 1.0,
+                description: O pedido foi ótimo!,
+                company_id: 1,
+                employee_id: 1
+
+    put:
+      tags:
+        - Avaliações
+      summary: Update review by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the review
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              employee_id: 1,
+              company_id: 1
+      responses:
+        '200':
+          description: Review updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                employee_id: 1,
+                company_id: 1
+
+    delete:
+      tags:
+        - Avaliações
+      summary: Delete review by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the review
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Review deleted successfully   
+          
+  /roles:
+    get:
+      tags:
+        - Cargos
+      summary: Get all roles
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - name: User,
+                  description: More limited permission
+
+    post:
+      tags:
+        - Cargos
+      summary: Create a new role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: User,
+              description: More limited permission
+      responses:
+        '201':
+          description: Role created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: User,
+                description: More limited permission
+
+  /roles/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the role
+        schema:
+          type: integer
+    get:
+      tags:
+        - Cargos
+      summary: Get role by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                name: User,
+                description: More limited permission
+
+    put:
+      tags:
+        - Cargos
+      summary: Update role by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the role
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: User,
+              description: More limited permission
+      responses:
+        '200':
+          description: Role updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: User,
+                description: More limited permission
+
+    delete:
+      tags:
+        - Cargos
+      summary: Delete role by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the role
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Role deleted successfully   
+          
+  /permissions:
+    get:
+      tags:
+        - Permissões
+      summary: Get all permissions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - name: Visualizar permissão,
+                  description: Permissão para visualizar uma permissão.,
+                  resource: reviews,
+                  action: GET
+
+    post:
+      tags:
+        - Permissões
+      summary: Create a new permission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Visualizar permissão,
+              description: Permissão para visualizar uma permissão.,
+              resource: reviews,
+              action: GET
+      responses:
+        '201':
+          description: Permission created successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Visualizar permissão,
+                description: Permissão para visualizar uma permissão.,
+                resource: reviews,
+                action: GET
+
+  /permissions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID of the permission
+        schema:
+          type: integer
+    get:
+      tags:
+        - Permissões
+      summary: Get permission by ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Visualizar permissão,
+                description: Permissão para visualizar uma permissão.,
+                resource: reviews,
+                action: GET
+
+    put:
+      tags:
+        - Permissões
+      summary: Update permission by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the permission
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Visualizar permissão,
+              description: Permissão para visualizar uma permissão.,
+              resource: reviews,
+              action: GET
+      responses:
+        '200':
+          description: Permission updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Visualizar permissão,
+                description: Permissão para visualizar uma permissão.,
+                resource: reviews,
+                action: GET
+
+    delete:
+      tags:
+        - Permissões
+      summary: Delete permission by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the permission
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Permission deleted successfully   
+    
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/CAIOSTUART06/sistema-de-salgadinho/1.0.0

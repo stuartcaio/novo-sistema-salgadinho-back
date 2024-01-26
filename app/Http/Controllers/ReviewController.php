@@ -25,7 +25,7 @@ class ReviewController extends Controller
 
             $this->save(["reviewValue" => $request->reviewValue, "description" => $request->description, "employee_id" => $request->employee_id, "company_id" => $request->company_id]);
             
-            return ["message" => "Review cadastrada com sucesso!"];
+            return response()->json(["message" => "Review cadastrada com sucesso!"]);
         } catch (Exception $e){
             return $e;
         }
@@ -38,10 +38,10 @@ class ReviewController extends Controller
             if(!$reviewExists){
                 $this->updateByID(["reviewValue" => $request->reviewValue, "description" => $request->description], $id);
 
-                return ["message" => "Review atualizada com sucesso!"];
+                return response()->json(["message" => "Review atualizada com sucesso!"]);
             }
 
-            return ["message" => "Não existe uma review com este ID."];
+            return response()->json(["message" => "Não existe uma review com este ID."]);
         } catch(Exception $e){
             return $e;
         }
@@ -53,10 +53,10 @@ class ReviewController extends Controller
         if($reviewWithInsertedIdExists){
             $this->delete($id);
 
-            return ["message" => "Review deletada com sucesso!"];
+            return response()->json(["message" => "Review deletada com sucesso!"]);
         }
 
-        return ["message" => "Não existe uma review com este ID."];
+        return response()->json(["message" => "Não existe uma review com este ID."]);
     }
 
     public function show(int $id){
@@ -66,6 +66,6 @@ class ReviewController extends Controller
             return $reviewWithInsertedIdExists;
         }
 
-        return ["message" => "Não existe uma review com este ID."];
+        return response()->json(["message" => "Não existe uma review com este ID."]);
     }
 }

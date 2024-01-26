@@ -63,8 +63,8 @@ RUN docker-php-ext-install gd \
 
 RUN apt-get update -yqq \
     && apt-get install -y --no-install-recommends openssl \
-    && sed -i 's,^\(MinProtocol[ ]=\).,\1'TLSv1.0',g' /etc/ssl/openssl.cnf \
-    && sed -i 's,^\(CipherString[ ]=\).,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
+    && sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.0',g' /etc/ssl/openssl.cnf \
+    && sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -84,4 +84,4 @@ RUN rm -rf /tmp/*
 COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
 
 RUN chown -R www-data:www-data /var/www/html
-RUN a2enmod rewrite
+# RUN a2enmod rewrite

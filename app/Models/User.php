@@ -6,10 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Sanctum\HasApiTokens;
 use DB;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -44,6 +45,31 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public static function getRoles($id){
+        $roles = DB::table("roles")
+                   ->select([
+                    "roles.id",
+                    "roles.name",
+                    "roles.description"
+                   ])
+                   ->join("users_roles", "roles.id", "=", "users_roles.role_id")
+                   ->join("users", "users.id", "=", "users_roles.user_id")
+                   ->where("users.id", $id)
+                   ->get();
+
+        return $roles;
+    }
+
     public static function getUsers(){
         return DB::table("users")
                  ->select(
@@ -53,5 +79,16 @@ class User extends Authenticatable
                     "password"
                   )
                   ->get();
+    }
+
+    public static function getUsersWithRoles(){
+        $users = User::getUsers();
+
+        foreach($users as $user){
+            $usersModel = new self();
+            $user->roles = $usersModel->getRoles($user->id);
+        }
+
+        return $users;
     }
 }
