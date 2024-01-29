@@ -58,12 +58,12 @@ class UserController extends Controller
         }
 
         DB::table("users as u")
-              ->where("u.id", $id)
-              ->update([
+            ->where("u.id", $id)
+            ->update([
                 "u.name" => $request->name,
                 "u.email" => $request->email,
                 "u.password" => bcrypt($request->password)
-              ]);
+            ]);
 
         if(count($request->roles) >= 1){
             $this->__permissionConstruct("users_roles");
