@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Controllers\Traits\DatabaseFunctions;   
+use App\Http\Controllers\Traits\DatabaseFunctions;  
 use App\Http\Controllers\Traits\Permission; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,15 +14,29 @@ use DB;
 
 class UserController extends Controller
 {
-    use DatabaseFunctions;
-    use Permission;
+    use DatabaseFunctions, Permission;
 
     public function __construct(){
         $this->__dbConstruct("users");
     }
 
-    public function index(){
-        return User::getUsersWithRoles();
+    public function index(Request $request){
+        try{
+            $users = User::getUsersWithRoles();
+
+            if($request->termSearch){
+                $users->where("name", $termSearch)
+                     ->orWhere("email", $termSearch);
+            }
+
+            if($request->quantityPerPage && $request->currentPage){
+                $users->paginate($request->quantityPerPage, $request->currentPage);
+            }
+
+            return $users;
+        } catch(\Exception $e){
+            return response()->json(["error" => $e->getMessage(), "line" => $e->getLine(), "file" => $e->getFile()], 500);
+        }
     }
 
     public function register(Request $request){
@@ -92,25 +106,29 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        $adminUsers = $this->adminUsers;
+        try{
+            $adminUsers = $this->adminUsers;
 
-        if(!Auth::attempt(["email" => $request->email, "password" => $request->password])){
-            return response()->json(["message" => "E-mail ou senha incorretos."]);
-        }
-
-        $user = Auth::user();
-
-        foreach($adminUsers as $adminUser){
-            if($request["email"] === $adminUser["email"] && $request["password"] === $adminUser["password"]){
-                $token = JWTAuth::fromUser($user, ["role" => "admin"]);
-
-                return response()->json(["message" => "Administrador logado com sucesso!", "token" => $token]);
+            if(!Auth::attempt(['email' => $request["email"], 'password' => $request["password"]])){
+                return response()->json(["message" => "E-mail ou senha incorretos."]);
             }
+
+            $user = Auth::user();
+
+            foreach($adminUsers as $adminUser){
+                if($request["email"] === $adminUser["email"] && $request["password"] === $adminUser["password"]){
+                    $token = JWTAuth::fromUser($user, ["role" => "admin"]);
+
+                    return response()->json(["message" => "Administrador logado com sucesso!", "token" => $token]);
+                }
+            }
+
+            $token = JWTAuth::fromUser($user);
+
+            return response()->json(["message" => "Usuário logado com sucesso!", "token" => $token]);
+        } catch(\Exception $e){
+            return response()->json(["error" => $e->getMessage(), "line" => $e->getLine(), "file" => $e->getFile()], 500);
         }
-
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(["message" => "Usuário logado com sucesso!", "token" => $token]);
     }
 
     public function logout(Request $request){
